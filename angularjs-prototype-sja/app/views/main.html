@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="span6">
+        <legend>Player One</legend>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label>Position: {{playerOnePosition}}</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerOneSpeed">speed in m/s</label>
+                <div class="controls">
+                    <input id="playerOneSpeed" type="text" placeholder="speed in m/s" ng-model="playerOneSpeed">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerOneAngle">angle in °</label>
+                <div class="controls">
+                    <input id="playerOneAngle" type="text" placeholder="angle in °" ng-model="playerOneAngle">
+                </div>
+            </div>
+            <div class="control-group">
+                <button class="btn" ng-click="fire(true, playerOnePosition, playerOneSpeed, playerOneAngle)">Fire</button>
+            </div>
+        </form>
+    </div>
+    <div class="span6">
+        <legend>Player Two</legend>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label>Position: {{playerTwoPosition}}</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerTwoSpeed">speed in m/s</label>
+                <div class="controls">
+                    <input id="playerTwoSpeed" type="text" placeholder="speed in m/s" ng-model="playerTwoSpeed">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerTwoAngle">angle in °</label>
+                <div class="controls">
+                    <input id="playerTwoAngle" type="text" placeholder="angle in °" ng-model="playerTwoAngle">
+                </div>
+            </div>
+            <div class="control-group">
+                <button class="btn" ng-click="fire(false, playerTwoPosition, playerTwoSpeed, playerTwoAngle)">Fire</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        <ul>
+            <li ng-repeat="e in log">
+                {{e}}
+            </li>
+        </ul>
+    </div>
+</div>
