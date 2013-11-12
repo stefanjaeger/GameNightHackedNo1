@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <button class="btn" ng-click="fire(true, playerOnePosition, playerOneSpeed, playerOneAngle)">Fire</button>
+                <button class="btn" ng-click="fireCanvas(true, playerOnePosition, playerOneSpeed, playerOneAngle)">Fire</button>
             </div>
         </form>
     </div>
@@ -41,14 +41,14 @@
                 </div>
             </div>
             <div class="control-group">
-                <button class="btn" ng-click="fire(false, playerTwoPosition, playerTwoSpeed, playerTwoAngle)">Fire</button>
+                <button class="btn" ng-click="fireCanvas(false, playerTwoPosition, playerTwoSpeed, playerTwoAngle)">Fire</button>
             </div>
         </form>
     </div>
 </div>
 <div class="row">
     <div class="span12">
-        <canvas width="800" height="400" id="canvas" drawing></canvas>
+        <canvas width="800" height="400" id="canvas" drawing style="border: 1px solid #5D5361"></canvas>
     </div>
 </div>
 <div class="row">
