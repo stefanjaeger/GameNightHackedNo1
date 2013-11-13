@@ -1,4 +1,4 @@
-/*global angular, console, requestAnimationFrame */
+/*global angular, console, requestAnimationFrame, cancelAnimationFrame */
 
 (function () {
     "use strict";
@@ -53,19 +53,17 @@
                         }
 
                         function draw() {
-                            requestAnimationFrame(draw);
-                            numberOfRedraws = numberOfRedraws + 1;
-
-                            var t = new Date().getTime() - startTime + 150 * numberOfRedraws,
+                            var id = requestAnimationFrame(draw),
+                                t = new Date().getTime() - startTime + 150 * numberOfRedraws,
                                 currentTime = t / 1000,
                                 x = (shootingDirectionLeftToRight) ? shootingPosition + (speed * currentTime * Math.cos(rad)) : shootingPosition - (speed * currentTime * Math.cos(rad)),
                                 y = start_y - ((speed * currentTime * Math.sin(rad)) - (0.5 * g * Math.pow(currentTime, 2)));
 
-                            /*if ((x < -1 * circleSize || x > ctx.canvas.width + circleSize) || (y < -1 * circleSize || y > ctx.canvas.width + circleSize)) {
-                                // TODO stop animation
-                            }*/
+                            if ((x < -1 * circleSize || x > ctx.canvas.width + circleSize) || (y < -1 * circleSize || y > ctx.canvas.width + circleSize)) {
+                                cancelAnimationFrame(id);
+                            }
 
-                            //console.log('cur_t: ' + cur_t + ', x: ' + x + ', y: ' + y);
+                            //console.log('cur_t: ' + currentTime + ', x: ' + x + ', y: ' + y);
                             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                             ctx.fillStyle = '#FFB553';
                             ctx.fillRect(scope.playerOnePosition - 10, ctx.canvas.height - 10, 20, 10);
@@ -76,6 +74,8 @@
                             ctx.fillStyle = '#4D5361';
                             ctx.closePath();
                             ctx.fill();
+
+                            numberOfRedraws = numberOfRedraws + 1;
                         }
                         draw();
                     };
