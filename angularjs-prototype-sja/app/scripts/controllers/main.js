@@ -1,4 +1,4 @@
-/*global angular, console, setInterval, clearInterval */
+/*global angular, console, requestAnimationFrame */
 
 (function () {
     "use strict";
@@ -38,8 +38,8 @@
                         var start_y = ctx.canvas.height,
                             rad = d2r(angle),
                             g = 9.81,
-                            t = 0,
-                            frame_interval = 10,
+                            startTime = new Date().getTime(),
+                            numberOfRedraws = 0,
                             interval,
                             circleSize = 10,
                             distance = 2 * Math.pow(speed, 2) * Math.sin(rad) * Math.cos(rad) / 9.81,
@@ -53,20 +53,19 @@
                         }
 
                         function draw() {
-                            t = t + frame_interval;
+                            requestAnimationFrame(draw);
+                            numberOfRedraws = numberOfRedraws + 1;
 
-                            t += 50;
+                            var t = new Date().getTime() - startTime + 150 * numberOfRedraws,
+                                currentTime = t / 1000,
+                                x = (shootingDirectionLeftToRight) ? shootingPosition + (speed * currentTime * Math.cos(rad)) : shootingPosition - (speed * currentTime * Math.cos(rad)),
+                                y = start_y - ((speed * currentTime * Math.sin(rad)) - (0.5 * g * Math.pow(currentTime, 2)));
 
-                            var cur_t = t / 1000,
-                                x = (shootingDirectionLeftToRight) ? shootingPosition + (speed * cur_t * Math.cos(rad)) : shootingPosition - (speed * cur_t * Math.cos(rad)),
-                                y = start_y - ((speed * cur_t * Math.sin(rad)) - (0.5 * g * Math.pow(cur_t, 2)));
-
-                            if ((x < -1 * circleSize || x > ctx.canvas.width + circleSize) || (y < -1 * circleSize || y > ctx.canvas.width + circleSize)) {
-                                clearInterval(interval);
-                            }
+                            /*if ((x < -1 * circleSize || x > ctx.canvas.width + circleSize) || (y < -1 * circleSize || y > ctx.canvas.width + circleSize)) {
+                                // TODO stop animation
+                            }*/
 
                             //console.log('cur_t: ' + cur_t + ', x: ' + x + ', y: ' + y);
-
                             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                             ctx.fillStyle = '#FFB553';
                             ctx.fillRect(scope.playerOnePosition - 10, ctx.canvas.height - 10, 20, 10);
@@ -78,7 +77,7 @@
                             ctx.closePath();
                             ctx.fill();
                         }
-                        interval = setInterval(draw, frame_interval);
+                        draw();
                     };
 
                 }
