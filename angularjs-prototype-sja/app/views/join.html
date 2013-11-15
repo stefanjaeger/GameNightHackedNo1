@@ -31,12 +31,14 @@
                 <label class="control-label" for="playerOneSpeed">speed in m/s</label>
                 <div class="controls">
                     <input id="playerOneSpeed" type="text" placeholder="speed in m/s" ng-model="playerSpeed">
+                    <input id="playerOneSpeedRangeInput" type="range" min="0" max="150" ng-model="playerSpeed" >
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="playerOneAngle">angle in °</label>
                 <div class="controls">
                     <input id="playerOneAngle" type="text" placeholder="angle in °" ng-model="playerAngle">
+                    <input id="playerOneAngleRangeInput" type="range" min="0" max="90" ng-model="playerAngle" >
                 </div>
             </div>
             <div class="control-group">
