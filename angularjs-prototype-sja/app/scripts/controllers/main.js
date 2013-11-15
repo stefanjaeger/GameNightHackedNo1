@@ -71,7 +71,6 @@
                             bullet.vxi = bullet.nextVxi(deltat);
                             bullet.vyi = bullet.nextVyi(deltat);
 
-
                             if (between(bullet.y, ctx.canvas.height, (ctx.canvas.height - 10))) {
                                 if (shootingPosition !== scope.playerOnePosition && between(bullet.x, scope.playerOnePosition - 10, scope.playerOnePosition + 10)) {
                                     scope.$apply(function () {
@@ -85,14 +84,12 @@
                                 }
                             }
 
-
                             ctx.beginPath();
                             ctx.arc(bullet.x, bullet.y, circleSize, 0, Math.PI * 2, true);
                             ctx.fillStyle = '#4D5361';
                             ctx.closePath();
 
                             ctx.fill();
-
 
                             if ((bullet.x < -1 * circleSize || bullet.x > ctx.canvas.width + circleSize) || (bullet.y < -1 * circleSize || bullet.y > ctx.canvas.width + circleSize)) {
                                 cancelAnimationFrame(id);
