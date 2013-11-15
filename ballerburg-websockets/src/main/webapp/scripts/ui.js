@@ -21,6 +21,14 @@ UI.prototype.setGameId = function (gameId) {
 
 UI.prototype.showCanvas = function() {
     document.getElementById('controls').className = 'hidden';
+    gameState.myShotState = {
+    	'x': parseInt(gameState.startPointMe),
+    	'y': 1,
+    	'vx': gameState.velocity/5.0*Math.sin(90-gameState.angle*Math.PI/180),
+    	'vy': gameState.velocity/5.0*Math.cos(90-gameState.angle*Math.PI/180),
+    	'ay': -0.000981*100
+    };
+    scene.animate();
 };
 
 UI.prototype.resizeCanvas = function() {
@@ -32,26 +40,26 @@ UI.prototype.resizeCanvas = function() {
 UI.prototype.showCreateGame = function() {
     document.getElementById('welcomeScreen').className = 'hidden';
     document.getElementById('createScreen').className = 'full-overlay';
-}
+};
 
 UI.prototype.showJoinGame = function() {
     document.getElementById('welcomeScreen').className = 'hidden';
     document.getElementById('joinScreen').className = 'full-overlay';
-}
+};
 
 UI.prototype.showControls = function() {
     document.getElementById('welcomeScreen').className = 'hidden';
     document.getElementById('joinScreen').className = 'hidden';
     document.getElementById('createScreen').className = 'hidden';
     document.getElementById('controls').className = 'full-overlay';
-}
+};
 
 UI.prototype.showWinningScreen = function() {
     document.getElementById('controls').className = 'hidden';
     document.getElementById('winningScreen').className = 'full-overlay';
-}
+};
 
 UI.prototype.showLosingScreen = function() {
     document.getElementById('controls').className = 'hidden';
     document.getElementById('losingScreen').className = 'full-overlay';
-}
+};

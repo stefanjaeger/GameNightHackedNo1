@@ -1,3 +1,5 @@
+var anim = false;
+
 function Scene() {
 	window.requestAnimFrame = (function(){
 		  return  window.requestAnimationFrame       ||
@@ -11,10 +13,14 @@ function Scene() {
 
 Scene.prototype.initScene = function() {
 	canvas = document.getElementById("mainCanvas");
-
 	(function animloop(){
-		  requestAnimFrame(animloop);
-		  draw();
+			if(anim === true){
+				gameState.myShotState.x += gameState.myShotState.vx;
+				gameState.myShotState.y += gameState.myShotState.vy;
+				gameState.myShotState.vy += gameState.myShotState.ay;
+			}
+			requestAnimFrame(animloop);
+			draw();
 		})();
 };
 
@@ -22,22 +28,40 @@ Scene.prototype.draw = function () {
 	draw();
 };
 
+Scene.prototype.animate = function() {
+	anim = true;
+};
+
+
 draw = function() {
 	canvas.width = canvas.width;
+	if(anim) {
+		drawMyShot();
+	}
 	drawTank1();
 	drawTank2();
 };
 
+drawMyShot = function()  {
+	var context = canvas.getContext("2d");
+	context.arc(toPixel(parseInt(gameState.myShotState.x)), toY(gameState.myShotState.y), 20, 0, 2 * Math.PI, false);
+	context.stroke();
+};
+
 drawTank1 = function () {
 	var context = canvas.getContext("2d");
-	context.rect(toPixel(parseInt(gameState.startPointMe)),canvas.height-20,20,20);
+	context.rect(toPixel(parseInt(gameState.startPointMe)),toY(20),20,20);
 	context.stroke();
 };
 
 drawTank2 = function () {
 	var context = canvas.getContext("2d");
-	context.rect(toPixel(parseInt(gameState.startPointYou) + 900),canvas.height-20,20,20);
+	context.rect(toPixel(parseInt(gameState.startPointYou) + 880),toY(20),20,20);
 	context.stroke();
+};
+
+toY = function(y) {
+	return canvas.height-y;
 };
 
 toPixel = function(pos) {
