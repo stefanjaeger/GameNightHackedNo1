@@ -64,7 +64,7 @@
                             draw = function () {
                                 var id = requestAnimationFrame(draw),
                                     now = new Date().getTime(),
-                                    deltat = (now - lastTime) / 1000 + ctx.canvas.width / 1000;
+                                    deltat = (now - lastTime) / 1000 + 100 / 1000;
 
                                 lastTime = now;
 
@@ -138,7 +138,7 @@
                     };
 
                     scope.$watch('playerOnePosition + playerTwoPosition', function () {
-                        draw();
+                        resize();
                     });
 
                     addResizeEvent(function () {
