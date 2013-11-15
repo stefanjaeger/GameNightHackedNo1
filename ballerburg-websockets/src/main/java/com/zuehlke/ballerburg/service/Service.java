@@ -34,19 +34,21 @@ public class Service {
 		switch(code) {
 		case "create_game":
 			logger.info(String.format("Creating game %s", message));
-			return "token " + server.createGame(session).getToken();
+			String apos = msg[1];
+			String bpos = msg[2];
+			return "token " + server.createGame(session, apos, bpos).getToken();
 		case "join_game":
 			logger.info(String.format("Joining game %s", message));
 			final String joinToken = msg[1];
 			Game g = server.getGameForToken(joinToken);
 			g.setPlayerB(session);
-            g.getPlayerA().getAsyncRemote().sendText("joined");
-			return "joined";
+            g.getPlayerA().getAsyncRemote().sendText("joined " + g.getPlayerBPos() + " " + g.getPlayerAPos());
+			return "joined " + g.getPlayerAPos() + " " + g.getPlayerBPos();
 		case "shoot":
 			final String shootToken = msg[1];
 			Game game = server.getGameForToken(shootToken);
 			game.getOtherSession(session).getAsyncRemote().sendText(message);
-			break;
+			return null;
 		default:
 			logger.info(String.format("Unknown message received %s", code));
 		}

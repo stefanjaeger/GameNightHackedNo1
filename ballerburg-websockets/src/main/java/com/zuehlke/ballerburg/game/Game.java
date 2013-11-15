@@ -4,20 +4,28 @@ import javax.websocket.Session;
 
 public class Game {
 	private final String token;
-	private Session playerA;
+	private final Session playerA;
 	private Session playerB;
+	private final String playerAPos;
+	private final String bPos;
 	
-	public Game(String token, Session player) {
+	public Game(String token, Session player, String pos, String bpos) {
         this.playerA = player;
 		this.token = token;
+		this.playerAPos = pos;
+		this.bPos = bpos;
 	}
 	
-	public Session getPlayerA() {
-		return playerA;
+	public String getPlayerBPos() {
+		return bPos;
 	}
 
-	public void setPlayerA(Session playerA) {
-		this.playerA = playerA;
+	public String getPlayerAPos() {
+		return playerAPos;
+	}
+
+	public Session getPlayerA() {
+		return playerA;
 	}
 
 	public Session getPlayerB() {

@@ -19,8 +19,8 @@ public class GameServer {
 		return games.get(token);
 	}
 	
-	public Game createGame(Session playerA) {
-		Game g = new Game(generateToken(), playerA);
+	public Game createGame(Session playerA, String pos, String bpos) {
+		Game g = new Game(generateToken(), playerA, pos, bpos);
 		games.put(g.getToken(), g);
 		return g;
 	}
