@@ -1,0 +1,97 @@
+<html>
+
+<head>
+<script>
+
+function getRad(a) {
+	return a * Math.PI / 180;
+}
+
+
+var a, v, g, rad, boom, x, y, t, context, delta, stop, returnInterval;
+
+function fire() {
+
+ a = parseInt(document.getElementById('winkel').value, 10);
+ v = parseInt(document.getElementById('velocity').value, 10); 
+ pos = parseInt(document.getElementById('pos').value, 10); 
+ g = 9.81;
+ rad = getRad(a);
+ t = 0;  
+ delta = 20;
+var boom = (2* Math.pow(v,2) * Math.sin(rad)* Math.cos(rad))/g;
+	
+var canvas = document.getElementById('canvas');
+context  = canvas.getContext('2d');
+
+
+
+function paint() {
+
+
+	if (y < 0) {
+    	clearInterval(returnInterval);
+
+    	context.fillRect(boom, 990, 10, 10);
+
+    	
+    	if (boom > pos && boom < (20 + pos)) {
+    		alert('bang' + boom + ", pos " + pos+ "--");
+
+    	} else {
+    		t = 0;
+    		y = 0;
+    		console.log('ohhh');
+    	}
+
+    	return;
+    }
+	context.clearRect(0,0, 1000, 1000);
+    context.fillStyle = 'blue';
+    context.fillRect(pos, 990, 20, 10);
+
+	context.fillStyle = 'red';
+    x = v*Math.cos(rad)*t
+    y = v*Math.sin(rad)*t - 1/2*9.81*Math.pow(t, 2);
+ //   console.log('paint' + t + ", x:" + x + ", y:" + y);
+ 	context.beginPath();
+    context.arc(x, 1000-y, 5, 0, 2 * Math.PI, false);
+    context.fill();
+    t += delta / 1000;
+    t += 0.1;
+}
+
+returnInterval =setInterval(paint, delta);
+
+
+	
+}
+
+</script>
+
+</head>
+
+
+<body style="margin: 0px;">
+
+<div>
+<canvas id="canvas" width="1000" height="1000" style="border: 1px solid ">
+</canvas>
+</div>
+Winkel
+<input id="winkel" value="45" type="range" min="1" max="89"  style="width: 90%"/><br />
+
+
+Geschwindigkeit
+<input id="velocity" value="90" type="range" min="1" max="100"  style="width: 90%" /><br />
+
+Position
+<input id="pos" value="500" type="range" min="10" max="1000" style="width: 90%" /><br />
+
+<input type="submit" onclick="fire()" />
+ 
+</body>
+
+
+</html>
+
