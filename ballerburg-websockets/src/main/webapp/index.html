@@ -25,7 +25,7 @@
 	<div id="welcomeScreen" class="full-overlay">
 		<h1>Welcome</h1>
 		
-		<input id="otherGameId" class="welcome-button" type="button" value="Create Game" onclick="createGame();" />
+		<input id="createGameButton" class="welcome-button" type="button" value="Create Game" onclick="createGame();" />
 		or
 		<input id="joinGame" class="welcome-button" type="button" value="Join Game" onclick="joinGame();" />
 	</div>
@@ -38,7 +38,7 @@
 	<div id="joinScreen" class="hidden">
 		<h1>Join another game:</h1>
 		<input id="otherGameId" type="text" />
-		<input id="joinGame" type="button" value="Join!" />
+		<input id="joinGameButton" type="button" value="Join!" onclick="joinGameWithGameId();" />
 	</div>
 	
 	<div id="winningScreen" class="hidden">
