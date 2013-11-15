@@ -40,6 +40,7 @@ public class Service {
 			final String joinToken = msg[1];
 			Game g = server.getGameForToken(joinToken);
 			g.setPlayerB(session);
+            g.getPlayerA().getAsyncRemote().sendText("joined");
 			return "joined";
 		case "shoot":
 			final String shootToken = msg[1];

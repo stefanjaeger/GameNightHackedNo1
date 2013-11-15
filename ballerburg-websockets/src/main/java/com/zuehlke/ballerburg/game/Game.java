@@ -8,6 +8,7 @@ public class Game {
 	private Session playerB;
 	
 	public Game(String token, Session player) {
+        this.playerA = player;
 		this.token = token;
 	}
 	
