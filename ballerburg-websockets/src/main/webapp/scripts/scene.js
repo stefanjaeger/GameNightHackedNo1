@@ -30,13 +30,13 @@ draw = function() {
 
 drawTank1 = function () {
 	var context = canvas.getContext("2d");
-	context.rect(toPixel(gameState.startPointMe),canvas.height-20,20,20);
+	context.rect(toPixel(parseInt(gameState.startPointMe)),canvas.height-20,20,20);
 	context.stroke();
 };
 
 drawTank2 = function () {
 	var context = canvas.getContext("2d");
-	context.rect(toPixel(gameState.startPointYou+900),canvas.height-20,20,20);
+	context.rect(toPixel(parseInt(gameState.startPointYou) + 900),canvas.height-20,20,20);
 	context.stroke();
 };
 
