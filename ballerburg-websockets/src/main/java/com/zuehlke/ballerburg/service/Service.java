@@ -46,7 +46,7 @@ public class Service {
 			final String shootToken = msg[1];
 			Game game = server.getGameForToken(shootToken);
 			game.getOtherSession(session).getAsyncRemote().sendText(message);
-			break;
+			return null;
 		default:
 			logger.info(String.format("Unknown message received %s", code));
 		}

@@ -2,7 +2,7 @@
 var ui = new UI();
 var scene = new Scene();
 var ws;
-var gameState;
+var gameState = {};
 
 /* Main entrypoint of ballerburg.js */
 function main() {
@@ -26,6 +26,7 @@ function joinGame() {
 
 function joinGameWithGameId() {
     var gameId = document.getElementById('otherGameId').value;
+    gameState.gameId = gameId;
     sendJoinGame(gameId);
 }
 
@@ -53,10 +54,17 @@ function connectToServer() {
                 gameState.gameId = gameId;
                 break;
             case 'joined':
-                console.log('Joined Game with ID ' + msg[1]);
+                console.log('Joined Game with ID ' + gameState.gameId);
                 ui.showControls();
-                gameState.gameId = msg[1];
                 break;
+            case 'shoot':
+            	console.log('receive enemy shot');
+            	gameState.otherAngle = msg[2];
+            	gameState.otherVelocity = msg[3];
+            	if(gameState.angle != undefined) {
+            		ui.showCanvas();
+            	}
+            	break;
             default:
                 alert('Unknown command ' + msg[0]);
         }
@@ -76,8 +84,12 @@ function sendJoinGame(gameId) {
 }
 
 function shoot() {
-	ws.send("shoot " + gameState.gameId + document.getElementById('angleView').value + document.getElementById('velocityView').value);
+	ws.send("shoot " + gameState.gameId + " " + document.getElementById('angleView').value + " " + document.getElementById('velocityView').value);
 	gameState.angle = document.getElementById('angleView').value;
 	gameState.velocity = document.getElementById('velocityView').value;
+	if(gameState.otherAngle != undefined) {
+		ui.showCanvas();
+	}
 }
+
 

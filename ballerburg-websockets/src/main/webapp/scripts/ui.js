@@ -19,6 +19,9 @@ UI.prototype.setGameId = function (gameId) {
 	document.getElementById("gameId").innerHTML = gameId;
 };
 
+UI.prototype.showCanvas = function() {
+    document.getElementById('controls').className = 'hidden';
+};
 
 UI.prototype.resizeCanvas = function() {
 	var canvas = document.getElementById("mainCanvas");
