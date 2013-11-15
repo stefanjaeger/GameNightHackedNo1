@@ -55,6 +55,8 @@ function connectToServer() {
                 break;
             case 'joined':
                 console.log('Joined Game with ID ' + gameState.gameId);
+                gameState.startPointYou = msg[1];
+                gameState.startPointMe = msg[2];
                 ui.showControls();
                 break;
             case 'shoot':
@@ -76,7 +78,11 @@ function connectToServer() {
 };
 
 function sendCreateGame() {
-    ws.send("create_game");
+	var startPointMe = Math.floor((Math.random()*100)+1);
+	var startPointYou = Math.floor((Math.random()*100)+901);
+	gameState.startPointMe = startPointMe;
+	gameState.startPointYou = startPointYou;
+    ws.send("create_game " + startPointMe + " " + startPointYou);
 }
 
 function sendJoinGame(gameId) {
