@@ -34,13 +34,15 @@ public class Service {
 		switch(code) {
 		case "create_game":
 			logger.info(String.format("Creating game %s", message));
-			return "token " + server.createGame(session).getToken();
+			String apos = msg[1];
+			String bpos = msg[2];
+			return "token " + server.createGame(session, apos, bpos).getToken();
 		case "join_game":
 			logger.info(String.format("Joining game %s", message));
 			final String joinToken = msg[1];
 			Game g = server.getGameForToken(joinToken);
 			g.setPlayerB(session);
-            g.getPlayerA().getAsyncRemote().sendText("joined");
+            g.getPlayerA().getAsyncRemote().sendText("joined " + g.getPlayerAPos() + " " + g.getPlayerBPos());
 			return "joined";
 		case "shoot":
 			final String shootToken = msg[1];
