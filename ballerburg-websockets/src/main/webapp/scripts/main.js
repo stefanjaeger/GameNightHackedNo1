@@ -2,6 +2,7 @@
 var ui = new UI();
 var scene = new Scene();
 var ws;
+var gameState;
 
 /* Main entrypoint of ballerburg.js */
 function main() {
@@ -49,10 +50,12 @@ function connectToServer() {
                 var gameId = msg[1];
                 console.log('Created game with ID ' + gameId);
                 ui.setGameId(gameId);
+                gameState.gameId = gameId;
                 break;
             case 'joined':
-                console.log('Joinded Game with ID ' + msg[1]);
+                console.log('Joined Game with ID ' + msg[1]);
                 ui.showControls();
+                gameState.gameId = msg[1];
                 break;
             default:
                 alert('Unknown command ' + msg[0]);
@@ -72,4 +75,9 @@ function sendJoinGame(gameId) {
     ws.send("join_game " + gameId);
 }
 
+function shoot() {
+	ws.send("shoot " + gameState.gameId + document.getElementById('angleView').value + document.getElementById('velocityView').value);
+	gameState.angle = document.getElementById('angleView').value;
+	gameState.velocity = document.getElementById('velocityView').value;
+}
 
