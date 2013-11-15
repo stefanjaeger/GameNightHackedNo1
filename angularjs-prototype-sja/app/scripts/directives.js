@@ -1,21 +1,9 @@
-/*global angular, console, requestAnimationFrame, cancelAnimationFrame */
+/*global angular, requestAnimationFrame, cancelAnimationFrame */
 
 (function () {
     "use strict";
     angular.module('No.1GamePreviewApp')
-        .controller('MainCtrl', function ($scope) {
-            // zwischen 1 und 800
-            $scope.playerOnePosition = Math.floor(Math.random() * 100) + 1;
-            $scope.playerTwoPosition = Math.floor(Math.random() * 100) + 700;
-
-            $scope.playerOneSpeed = 90;
-            $scope.playerOneAngle = 45;
-            $scope.playerTwoSpeed = 90;
-            $scope.playerTwoAngle = 45;
-
-            $scope.log = [];
-        })
-        .directive("drawingInMain", function () {
+        .directive("drawing", function () {
             return {
                 restrict: "A",
                 link: function (scope, element) {
@@ -30,10 +18,6 @@
                         return x >= min && x <= max;
                     }
 
-                    // TODO SJA: noch richtig positionieren/zeichnen
-                    // http://jsfiddle.net/azWHu/
-                    // http://www.panaghia.it/dev/projectile-motion/
-
                     scope.fireCanvas = function (shootingDirectionLeftToRight, shootingPosition, speed, angle) {
                         var start_y = ctx.canvas.height,
                             rad = d2r(angle),
@@ -46,10 +30,14 @@
                             impact = (shootingDirectionLeftToRight) ? shootingPosition + distance : shootingPosition - distance;
 
                         if (between(impact, scope.playerOnePosition - 10, scope.playerOnePosition + 10)) {
-                            scope.log.push('Player One hit!');
+                            scope.$apply(function () {
+                                scope.winner = 'Player One hit! Player Two is the winner!';
+                            });
                         }
                         if (between(impact, scope.playerTwoPosition - 10, scope.playerTwoPosition + 10)) {
-                            scope.log.push('Player Two hit!');
+                            scope.$apply(function () {
+                                scope.winner = 'Player Two hit! Player One is the winner!';
+                            });
                         }
 
                         function draw() {

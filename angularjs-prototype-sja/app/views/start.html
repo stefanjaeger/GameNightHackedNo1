@@ -1,12 +1,18 @@
-<div class="row" style="margin-top: 20px;">
+<div class="row" style="margin-top: 20px;" ng-hide="playMode == 'gameRunning'">
     <div class="span12">
         <legend>New Game created - Join Now!</legend>
         Scan QR Code or open <a href="{{gameUrl}}">this link</a>
 
     </div>
 </div>
-<div class="row" style="margin-top: 20px;">
+<div class="row" style="margin-top: 20px;" ng-hide="playMode == 'gameRunning'">
     <div class="span12">
         <qrcode text="{{gameUrl}}"size="200"></qrcode>
     </div>
+</div>
+
+<div class="row" style="margin-top: 20px;" ng-show="playMode == 'gameRunning'">
+    <canvas width="800" height="400" id="canvas" drawing style="border: 1px solid #5D5361"></canvas>
+
+    <h2>{{winner}}</h2>
 </div>
