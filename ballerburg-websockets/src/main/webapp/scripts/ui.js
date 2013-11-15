@@ -25,3 +25,30 @@ UI.prototype.resizeCanvas = function() {
 	canvas.width  = window.innerWidth;
 	canvas.height = window.innerHeight;
 };
+
+UI.prototype.showCreateGame = function() {
+    document.getElementById('welcomeScreen').className = 'hidden';
+    document.getElementById('createScreen').className = 'full-overlay';
+}
+
+UI.prototype.showJoinGame = function() {
+    document.getElementById('welcomeScreen').className = 'hidden';
+    document.getElementById('joinScreen').className = 'full-overlay';
+}
+
+UI.prototype.showControls = function() {
+    document.getElementById('welcomeScreen').className = 'hidden';
+    document.getElementById('joinScreen').className = 'hidden';
+    document.getElementById('createScreen').className = 'hidden';
+    document.getElementById('controls').className = 'full-overlay';
+}
+
+UI.prototype.showWinningScreen = function() {
+    document.getElementById('controls').className = 'hidden';
+    document.getElementById('winningScreen').className = 'full-overlay';
+}
+
+UI.prototype.showLosingScreen = function() {
+    document.getElementById('controls').className = 'hidden';
+    document.getElementById('losingScreen').className = 'full-overlay';
+}

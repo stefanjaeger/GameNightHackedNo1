@@ -1,6 +1,8 @@
 
 var ui = new UI();
 var scene = new Scene();
+var ws;
+var gameState;
 
 /* Main entrypoint of ballerburg.js */
 function main() {
@@ -9,20 +11,23 @@ function main() {
 	scene.draw();
 	
 	ui.registerListeners();
-	ui.setGameId("ASDF");
 	
 	connectToServer();
 }
 
 function createGame() {
-	document.getElementById('welcomeScreen').className = 'hidden';
-	document.getElementById('createScreen').className = 'full-overlay';
+    ui.showCreateGame();
+    sendCreateGame();
 };
 
 function joinGame() {
-	document.getElementById('welcomeScreen').className = 'hidden';
-	document.getElementById('joinScreen').className = 'full-overlay';
+    ui.showJoinGame();
 };
+
+function joinGameWithGameId() {
+    var gameId = document.getElementById('otherGameId').value;
+    sendJoinGame(gameId);
+}
 
 function connectToServer() {
 	var target = "ws://"+window.location.host+window.location.pathname+"websocket/echo";
@@ -38,7 +43,23 @@ function connectToServer() {
 		console.log('Info: WebSocket connection opened.');
 	};
 	ws.onmessage = function (event) {
-		console.log('Received: ' + event.data);
+		var msg = event.data.split(" ");
+        switch(msg[0])
+        {
+            case 'token':
+                var gameId = msg[1];
+                console.log('Created game with ID ' + gameId);
+                ui.setGameId(gameId);
+                gameState.gameId = gameId;
+                break;
+            case 'joined':
+                console.log('Joined Game with ID ' + msg[1]);
+                ui.showControls();
+                gameState.gameId = msg[1];
+                break;
+            default:
+                alert('Unknown command ' + msg[0]);
+        }
 	};
 	ws.onclose = function () {
 	  	console.log('Info: WebSocket connection closed.');
@@ -46,5 +67,17 @@ function connectToServer() {
 	window.onclose = function() { ws.close(); };
 };
 
+function sendCreateGame() {
+    ws.send("create_game");
+}
 
+function sendJoinGame(gameId) {
+    ws.send("join_game " + gameId);
+}
+
+function shoot() {
+	ws.send("shoot " + gameState.gameId + document.getElementById('angleView').value + document.getElementById('velocityView').value);
+	gameState.angle = document.getElementById('angleView').value;
+	gameState.velocity = document.getElementById('velocityView').value;
+}
 
