@@ -28,6 +28,14 @@ public class Game {
 		this.playerB = playerB;
 	}
 
+	public Session getOtherSession(Session session) {
+		if(getPlayerA() == session) {
+			return getPlayerB();
+		} else {
+			return getPlayerA();
+		}
+	}
+	
 	public String getToken() {
 		return token;
 	}

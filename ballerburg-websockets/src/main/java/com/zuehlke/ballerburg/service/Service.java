@@ -44,14 +44,8 @@ public class Service {
 			return "joined";
 		case "shoot":
 			final String shootToken = msg[1];
-			final boolean isA = "A".equals(msg[2]);
-			
 			Game game = server.getGameForToken(shootToken);
-			if(isA) {
-				game.getPlayerB().getAsyncRemote().sendText(message);
-			} else {
-				game.getPlayerA().getAsyncRemote().sendText(message);
-			}
+			game.getOtherSession(session).getAsyncRemote().sendText(message);
 			break;
 		default:
 			logger.info(String.format("Unknown message received %s", code));
