@@ -1,0 +1,54 @@
+<div class="row" style="margin-top: 20px;" ng-show="playMode == 'playerJoining'">
+    <div class="span12">
+        <p>You want to join the game {{gameId}}, cool!
+            <br />Please select your Player:</p>
+        <form>
+            <fieldset>
+                <div class="control-group" ng-hide="playerOneJoined">
+                    <div class="controls">
+                        <button class="btn" ng-click="join(1)">Join as Player One</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls" ng-hide="playerTwoJoined">
+                        <button class="btn" ng-click="join(2)">Join as Player Two</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 20px;" ng-show="playMode == 'playerJoined'">
+    <div class="span6">
+        <legend>{{player}}</legend>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label>Position: {{playerPosition}}</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerOneSpeed">speed in m/s</label>
+                <div class="controls">
+                    <input id="playerOneSpeed" type="text" placeholder="speed in m/s" ng-model="playerSpeed">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="playerOneAngle">angle in °</label>
+                <div class="controls">
+                    <input id="playerOneAngle" type="text" placeholder="angle in °" ng-model="playerAngle">
+                </div>
+            </div>
+            <div class="control-group">
+                <button class="btn" ng-click="fire(playerPosition, playerSpeed, playerAngle)">Fire</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row" style="margin-top: 20px;" ng-show="playMode == 'gameRunning'">
+    <canvas width="800" height="400" id="canvas" drawing style="border: 1px solid #5D5361"></canvas>
+
+    <h2>{{winner}}</h2>
+</div>
