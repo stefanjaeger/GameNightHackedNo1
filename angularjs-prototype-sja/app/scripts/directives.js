@@ -64,7 +64,7 @@
                             draw = function () {
                                 var id = requestAnimationFrame(draw),
                                     now = new Date().getTime(),
-                                    deltat = (now - lastTime) / 1000 + 100 / 1000;
+                                    deltat = (now - lastTime) / 1000 + ctx.canvas.width / 1000;
 
                                 lastTime = now;
 
@@ -95,7 +95,7 @@
 
                                 ctx.fill();
 
-                                if ((bullet.x < -1 * circleSize || bullet.x > ctx.canvas.width + circleSize) || (bullet.y < -1 * circleSize || bullet.y > ctx.canvas.width + circleSize)) {
+                                if ((bullet.x < -1 * circleSize || bullet.x > ctx.canvas.width + circleSize) || (bullet.y < -1 * circleSize || bullet.y > ctx.canvas.height + circleSize)) {
                                     cancelAnimationFrame(id);
                                 }
                             },
