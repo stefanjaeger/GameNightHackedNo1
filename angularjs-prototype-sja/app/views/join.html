@@ -48,7 +48,10 @@
 
 
 <div class="row" style="margin-top: 20px;" ng-show="playMode == 'gameRunning'">
-    <canvas width="800" height="400" id="canvas" drawing style="border: 1px solid #5D5361"></canvas>
+    <div style="position: relative;width: 800px;height: 400px;border: 1px solid #5D5361;">
+        <canvas id="layer1" firing width="800" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="layer2" startpositions width="800" height="400" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+    </div>
 
     <h2>{{winner}}</h2>
 </div>

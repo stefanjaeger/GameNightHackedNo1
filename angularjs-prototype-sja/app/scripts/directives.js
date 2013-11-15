@@ -3,7 +3,7 @@
 (function () {
     "use strict";
     angular.module('No.1GamePreviewApp')
-        .directive("drawing", function () {
+        .directive("firing", function () {
             return {
                 restrict: "A",
                 link: function (scope, element) {
@@ -14,60 +14,96 @@
                         return x * (Math.PI / 180);
                     }
 
-                    function between(x, min, max) {
-                        return x >= min && x <= max;
+                    function between(x, border1, border2) {
+                        if (border1 < border2) {
+                            return x >= border1 && x <= border2;
+                        }
+                        return x >= border2 && x <= border1;
                     }
 
                     scope.fireCanvas = function (shootingDirectionLeftToRight, shootingPosition, speed, angle) {
                         var start_y = ctx.canvas.height,
                             rad = d2r(angle),
-                            g = 9.81,
-                            startTime = new Date().getTime(),
-                            numberOfRedraws = 0,
-                            interval,
                             circleSize = 10,
-                            distance = 2 * Math.pow(speed, 2) * Math.sin(rad) * Math.cos(rad) / 9.81,
-                            impact = (shootingDirectionLeftToRight) ? shootingPosition + distance : shootingPosition - distance;
-
-                        if (between(impact, scope.playerOnePosition - 10, scope.playerOnePosition + 10)) {
-                            scope.$apply(function () {
-                                scope.winner = 'Player One hit! Player Two is the winner!';
-                            });
-                        }
-                        if (between(impact, scope.playerTwoPosition - 10, scope.playerTwoPosition + 10)) {
-                            scope.$apply(function () {
-                                scope.winner = 'Player Two hit! Player One is the winner!';
-                            });
-                        }
+                            lastTime = new Date().getTime(),
+                            bullet = {
+                                x: shootingPosition,
+                                nextX: function (deltat) {
+                                    return (shootingDirectionLeftToRight) ? this.x + deltat * this.vxi : this.x - deltat * this.vxi;
+                                },
+                                y: ctx.canvas.height,
+                                nextY: function (deltat) {
+                                    return bullet.y - deltat * bullet.vyi;
+                                },
+                                vxi: speed * Math.cos(rad),
+                                nextVxi: function (deltat) {
+                                    return this.vxi;
+                                },
+                                vyi: speed * Math.sin(rad),
+                                nextVyi: function (deltat) {
+                                    return this.vyi + deltat * -9.81;
+                                }
+                            };
 
                         function draw() {
                             var id = requestAnimationFrame(draw),
-                                t = new Date().getTime() - startTime + 150 * numberOfRedraws,
-                                currentTime = t / 1000,
-                                x = (shootingDirectionLeftToRight) ? shootingPosition + (speed * currentTime * Math.cos(rad)) : shootingPosition - (speed * currentTime * Math.cos(rad)),
-                                y = start_y - ((speed * currentTime * Math.sin(rad)) - (0.5 * g * Math.pow(currentTime, 2)));
+                                now = new Date().getTime(),
+                                deltat = (now - lastTime) / 1000 + 100 / 1000;
 
-                            if ((x < -1 * circleSize || x > ctx.canvas.width + circleSize) || (y < -1 * circleSize || y > ctx.canvas.width + circleSize)) {
-                                cancelAnimationFrame(id);
+                            lastTime = now;
+
+                            ctx.clearRect(bullet.x - circleSize - 5, bullet.y - circleSize - 5, circleSize * 2 + 10, circleSize * 2 + 10);
+
+                            bullet.x = bullet.nextX(deltat);
+                            bullet.y = bullet.nextY(deltat);
+                            bullet.vxi = bullet.nextVxi(deltat);
+                            bullet.vyi = bullet.nextVyi(deltat);
+
+                            if (between(bullet.y, ctx.canvas.height, (ctx.canvas.height - 10))) {
+                                if (shootingPosition !== scope.playerOnePosition && between(bullet.x, scope.playerOnePosition - 10, scope.playerOnePosition + 10)) {
+                                    scope.$apply(function () {
+                                        scope.winner = 'Player One hit! Player Two is the winner!';
+                                    });
+                                }
+                                if (shootingPosition !== scope.playerTwoPosition && between(bullet.x, scope.playerTwoPosition - 10, scope.playerTwoPosition + 10)) {
+                                    scope.$apply(function () {
+                                        scope.winner = 'Player Two hit! Player One is the winner!';
+                                    });
+                                }
                             }
 
-                            //console.log('cur_t: ' + currentTime + ', x: ' + x + ', y: ' + y);
-                            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                            ctx.fillStyle = '#FFB553';
-                            ctx.fillRect(scope.playerOnePosition - 10, ctx.canvas.height - 10, 20, 10);
-                            ctx.fillStyle = '#FA4444';
-                            ctx.fillRect(scope.playerTwoPosition - 10, ctx.canvas.height - 10, 20, 10);
                             ctx.beginPath();
-                            ctx.arc(x, y, circleSize, 0, Math.PI * 2, true);
+                            ctx.arc(bullet.x, bullet.y, circleSize, 0, Math.PI * 2, true);
                             ctx.fillStyle = '#4D5361';
                             ctx.closePath();
+
                             ctx.fill();
 
-                            numberOfRedraws = numberOfRedraws + 1;
+                            if ((bullet.x < -1 * circleSize || bullet.x > ctx.canvas.width + circleSize) || (bullet.y < -1 * circleSize || bullet.y > ctx.canvas.width + circleSize)) {
+                                cancelAnimationFrame(id);
+                            }
                         }
                         draw();
                     };
 
+                }
+            };
+        })
+        .directive("startpositions", function () {
+            return {
+                restrict: "A",
+                link: function (scope, element) {
+                    var draw = function () {
+                        var ctx = element[0].getContext('2d');
+                        ctx.fillStyle = '#FFB553';
+                        ctx.fillRect(scope.playerOnePosition - 10, ctx.canvas.height - 10, 20, 10);
+                        ctx.fillStyle = '#FA4444';
+                        ctx.fillRect(scope.playerTwoPosition - 10, ctx.canvas.height - 10, 20, 10);
+                    };
+                    draw();
+                    scope.$watch('playerOnePosition + playerTwoPosition', function () {
+                        draw();
+                    });
                 }
             };
         });
