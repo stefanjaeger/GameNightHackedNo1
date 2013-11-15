@@ -1,12 +1,32 @@
 package com.zuehlke.ballerburg.game;
 
+import javax.websocket.Session;
+
 public class Game {
 	private final String token;
-
-	public Game(String token) {
+	private Session playerA;
+	private Session playerB;
+	
+	public Game(String token, Session player) {
 		this.token = token;
 	}
 	
+	public Session getPlayerA() {
+		return playerA;
+	}
+
+	public void setPlayerA(Session playerA) {
+		this.playerA = playerA;
+	}
+
+	public Session getPlayerB() {
+		return playerB;
+	}
+
+	public void setPlayerB(Session playerB) {
+		this.playerB = playerB;
+	}
+
 	public String getToken() {
 		return token;
 	}

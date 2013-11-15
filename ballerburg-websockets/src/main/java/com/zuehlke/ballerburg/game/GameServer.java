@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.websocket.Session;
+
 public class GameServer {
 	private static final GameServer INSTANCE = new GameServer();
 	private AtomicInteger currentToken = new AtomicInteger();
@@ -17,8 +19,10 @@ public class GameServer {
 		return games.get(token);
 	}
 	
-	public Game createGame() {
-		return new Game(generateToken());
+	public Game createGame(Session playerA) {
+		Game g = new Game(generateToken(), playerA);
+		games.put(g.getToken(), g);
+		return g;
 	}
 	
 	private String generateToken() {

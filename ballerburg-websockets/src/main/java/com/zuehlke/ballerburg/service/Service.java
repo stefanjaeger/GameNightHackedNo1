@@ -9,6 +9,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.zuehlke.ballerburg.game.Game;
 import com.zuehlke.ballerburg.game.GameServer;
 
 @ServerEndpoint(value = "/websocket/echo")
@@ -28,12 +29,29 @@ public class Service {
 
 	@OnMessage
 	public String onMessage(String message, Session session) {
-		String code = message.split(" ")[0];
+		String[] msg = message.split(" ");
+		String code = msg[0];
 		switch(code) {
 		case "create_game":
-			return "token " + server.createGame().getToken();
+			logger.info(String.format("Creating game %s", message));
+			return "token " + server.createGame(session).getToken();
 		case "join_game":
+			logger.info(String.format("Joining game %s", message));
+			final String joinToken = msg[1];
+			Game g = server.getGameForToken(joinToken);
+			g.setPlayerB(session);
 			return "joined";
+		case "shoot":
+			final String shootToken = msg[1];
+			final boolean isA = "A".equals(msg[2]);
+			
+			Game game = server.getGameForToken(shootToken);
+			if(isA) {
+				game.getPlayerB().getAsyncRemote().sendText(message);
+			} else {
+				game.getPlayerA().getAsyncRemote().sendText(message);
+			}
+			break;
 		default:
 			logger.info(String.format("Unknown message received %s", code));
 		}
