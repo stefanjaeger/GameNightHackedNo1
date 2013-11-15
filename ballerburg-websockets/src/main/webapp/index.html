@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Ballerburg</title>
+	<link rel="stylesheet" type="text/css" href="css/ballerburg.css">
+	<script data-main="scripts/main" src="scripts/ui.js"></script>
+	<script data-main="scripts/main" src="scripts/scene.js"></script>
+	<script data-main="scripts/main" src="scripts/main.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+</head>
+<body onload="main();">
+	<canvas id="mainCanvas"></canvas>
+	
+	<div id="controls" class="hidden">
+		<h2>Prepare your move:</h2>
+		<input id="angleScroller" type="range" value="45" min="0" max="90" />
+		<input id="angleView" class="scroll-value" type="text" value="45"/>
+		<br />
+		<input id="velocityScroller" class="overlayed" type="range" value="50" min="0" max="100" />
+		<input id="velocityView" class="scroll-value" type="text" value="50" />
+		<input id="shootButton" class="overlayed" type="button"  value="Shoot!" />
+	</div>
+	
+	<div id="welcomeScreen" class="full-overlay">
+		<h1>Welcome</h1>
+		
+		<input id="otherGameId" class="welcome-button" type="button" value="Create Game" onclick="createGame();" />
+		or
+		<input id="joinGame" class="welcome-button" type="button" value="Join Game" onclick="joinGame();" />
+	</div>
+	
+	<div id="createScreen" class="hidden">
+		<h2>Your game id: <span id="gameId"></span></h2>
+		<h3>Waiting for other player...</h3>
+	</div>
+	
+	<div id="joinScreen" class="hidden">
+		<h1>Join another game:</h1>
+		<input id="otherGameId" type="text" />
+		<input id="joinGame" type="button" value="Join!" />
+	</div>
+	
+	<div id="winningScreen" class="hidden">
+		<div class="centered">
+			<h1>You won!</h1>
+		</div>
+	</div>
+	
+	<div id="losingScreen" class="hidden">
+		<div class="centered">
+			<h1>You lost!</h1>
+		</div>
+	</div>
+</body>
+</html>

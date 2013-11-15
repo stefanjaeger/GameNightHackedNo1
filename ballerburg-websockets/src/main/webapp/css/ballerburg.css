@@ -1,0 +1,80 @@
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+#mainCanvas {
+	z-index: 0;
+}
+
+div.hidden {
+	display: none;
+}
+
+div.full-overlay {
+	vertical-align: middle;
+	text-align: center;
+	opacity: 0.75;
+	background-color: #000;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	position: fixed;
+	color: white;
+	vertical-align: middle;
+}
+
+input.welcome-button {
+	width: 200px;
+	height: 50px;	
+}
+
+div.centered {
+	margin: auto;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+div#winningScreen {
+	background: #404040;
+	color: #00ff0f;
+	text-shadow: 0px 0px 10px #00ff0f, -1px -1px #000;
+	
+	display: table;
+	position: absolute;
+}
+
+div#losingScreen {
+	background: #404040;
+	color: #ff0f00;
+	text-shadow: 0px 0px 10px #ff0f00, -1px -1px #000;
+	vertical-align: middle;
+	
+	display: table;
+	position: absolute;
+}
+
+#angleScroller {
+	width: 100%;
+}
+
+#angleView {
+	width: 50px;
+}
+
+#velocityScroller {
+	width: 100%;
+}
+
+#velocityView {
+	width: 50px;
+}
+
+#shootButton {
+	height: 50px;
+	width: 100%;
+}
