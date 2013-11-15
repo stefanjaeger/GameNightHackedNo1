@@ -42,8 +42,8 @@ public class Service {
 			final String joinToken = msg[1];
 			Game g = server.getGameForToken(joinToken);
 			g.setPlayerB(session);
-            g.getPlayerA().getAsyncRemote().sendText("joined " + g.getPlayerAPos() + " " + g.getPlayerBPos());
-			return "joined";
+            g.getPlayerA().getAsyncRemote().sendText("joined " + g.getPlayerBPos() + " " + g.getPlayerAPos());
+			return "joined " + g.getPlayerAPos() + " " + g.getPlayerBPos();
 		case "shoot":
 			final String shootToken = msg[1];
 			Game game = server.getGameForToken(shootToken);
