@@ -55,8 +55,8 @@ function connectToServer() {
                 break;
             case 'joined':
                 console.log('Joined Game with ID ' + gameState.gameId);
-                gameState.startPointYou = msg[1];
-                gameState.startPointMe = msg[2];
+                gameState.startPointYou = parseInt(msg[1]);
+                gameState.startPointMe = parseInt(msg[2]);
                 console.log(gameState);
                 ui.showControls();
                 break;
